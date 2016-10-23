@@ -1,8 +1,12 @@
+import django.core.mail
+from django.core.urlresolvers import reverse
+
 from askbot.tests.utils import AskbotTestCase
 from askbot.conf import settings as askbot_settings
 from askbot import models
-import django.core.mail
-from django.core.urlresolvers import reverse
+from askbot.search.state_manager import SearchState
+from askbot.tests import factories
+
 
 class ThreadModelTestsWithGroupsEnabled(AskbotTestCase):
 
@@ -114,8 +118,6 @@ class ThreadModelTestsWithGroupsEnabled(AskbotTestCase):
         answer_groups = set(answer.groups.all())
         self.assertEqual(len(answer_groups & user_groups), 1)
 
-
-
     def test_permissive_response_publishing(self):
         self.group.moderate_answers_to_enquirers = False
         self.group.save()
@@ -126,3 +128,18 @@ class ThreadModelTestsWithGroupsEnabled(AskbotTestCase):
         answer_groups = set(answer.groups.all())
         user_groups = set(self.user.get_groups())
         self.assertEqual(len(answer_groups & user_groups), 1)
+
+
+class RunAdvancedSearchTest(AskbotTestCase):
+    def test_run_advanced_search(self):
+        ss = SearchState()
+        user = factories.UserFactory()
+        threads = models.Thread.objects.run_advanced_search(user, ss)[0]
+
+    def test_run_advanced_search_sort(self):
+        ss = SearchState(sort='age-desc')
+        user = factories.UserFactory()
+        threads = factories.ThreadFactory.create_batch(3)
+        sorted_threads = models.Thread.objects.run_advanced_search(user, ss)[0]
+        self.assertNotEqual(threads[0].id, sorted_threads[0].id)
+        self.assertEqual(threads[0].id, sorted_threads[-1].id)
