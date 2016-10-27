@@ -97,6 +97,7 @@ textarea,
 }
 textarea {
   padding: 5px;
+  height: initial;
 }
 .js-editable .wmd-container {
   height: auto;
@@ -1369,6 +1370,9 @@ ul#searchTags {
 }
 .short-summary a {
   color: #464646;
+}
+.short-summary .clearfix {
+  display: inline-block;
 }
 .short-summary .userinfo {
   text-align: right;
