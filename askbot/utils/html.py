@@ -21,7 +21,7 @@ EXTRA_ACCEPTABLE_ELEMENTS = tuple(getattr(django_settings,
                                           'ASKBOT_EXTRA_ACCEPTABLE_ELEMENTS',
                                           ()))
 EXTRA_ACCEPTABLE_ATTRIBUTES = tuple(getattr(django_settings,
-                                            'ASKBOT_EXTRA_ACCEPTABLE_ELEMENTS',
+                                            'ASKBOT_EXTRA_ACCEPTABLE_ATTRIBUTES',
                                             ()))
 
 
