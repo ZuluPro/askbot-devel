@@ -873,7 +873,7 @@ def extend_badge_events(e_to_b):
         events = set(extra_e_to_b.keys())
         for event in events:
             if event not in e_to_b:
-                raise ValueError('unkown badge event %s' % event)
+                e_to_b[event] = ()
             event_badges = set(e_to_b[event])
             extra_event_badges = set(extra_e_to_b[event])
 
